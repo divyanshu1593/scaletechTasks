@@ -1,0 +1,4 @@
+node_modules
+.env
+task1/test.js
+task1/test.rest
