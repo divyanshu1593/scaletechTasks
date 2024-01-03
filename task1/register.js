@@ -14,6 +14,7 @@ registrationRouter.post('/', async (req, res) => {
             status: 'fail',
             message: 'invalid username'
         });
+        return ;
     }
 
     if (!passwordRegex.test(req.body.password)){
@@ -21,6 +22,7 @@ registrationRouter.post('/', async (req, res) => {
             status: 'fail',
             message: 'invalid password'
         });
+        return ;
     }
 
     let passwordHash = await bcrypt.hash(req.body.password, 10);

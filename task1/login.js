@@ -7,13 +7,14 @@ export const loginRouter = express.Router();
 
 loginRouter.post('/', async (req, res) => {
     let usernameRegex = /^[a-zA-Z]+[a-zA-Z0-9@\.]*$/;
-    let passwordRegex = /^[a-zA-Z0-9@]*$/;
+    let passwordRegex = /^[a-zA-Z0-9@_#]*$/;
 
     if (!usernameRegex.test(req.body.username)){
         res.json({
             status: 'fail',
             message: 'invalid username'
         });
+        return ;
     }
 
     if (!passwordRegex.test(req.body.password)){
@@ -21,6 +22,7 @@ loginRouter.post('/', async (req, res) => {
             status: 'fail',
             message: 'invalid password'
         });
+        return ;
     }
 
     let passwordHash = await client.get(req.body.username);
@@ -29,6 +31,7 @@ loginRouter.post('/', async (req, res) => {
             status: 'fail',
             message: 'user not found'
         });
+        return ;
     }
 
     let isValid = await bcrypt.compare(req.body.password, passwordHash);
@@ -37,14 +40,14 @@ loginRouter.post('/', async (req, res) => {
             status: 'fail',
             message: 'password incorrect'
         });
+        return ;
     }
 
     let token = jwt.sign({
         user: req.body.username
     }, process.env.JWT_SECRET_KEY);
-
+    res.cookie("token", token)
     res.json({
         status: 'success',
-        token
     });
 });
