@@ -26,9 +26,23 @@ registrationRouter.post('/', async (req, res) => {
     }
 
     let passwordHash = await bcrypt.hash(req.body.password, 10);
-    client.set(req.body.username, passwordHash);
+    if (client.isReady){
+        if (await client.get(req.body.username) != null){
+            res.json({
+                status: 'fail',
+                message: 'username already taken'
+            });
+            return ;
+        }
+        client.set(req.body.username, passwordHash);
+        res.json({
+            status: 'success'
+        });
+        return ;
+    }
 
     res.json({
-        status: 'success'
+        status: 'fail',
+        message: 'Database Error'
     });
 });

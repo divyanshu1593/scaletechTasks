@@ -6,20 +6,29 @@ import { adminRouter } from './admin.js';
 import bodyParser from 'body-parser';
 import { createClient } from 'redis';
 
-export const client = createClient();
-client.on('error', err => console.log('Redis Client Error', err));
-await client.connect();
+dotenv.config();
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+
+const client = createClient();
+client.on('error', err => {
+    console.log(err);
+});
+await client.connect();
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use('/register',registrationRouter);
 app.use('/login', loginRouter);
 app.use('/admin', adminRouter);
-
-dotenv.config();
 
 let PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log('server running');
 });
+
+app.on('listening', () => {
+    console.log('server started');
+});
+
+export { client }

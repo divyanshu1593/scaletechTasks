@@ -25,6 +25,14 @@ loginRouter.post('/', async (req, res) => {
         return ;
     }
 
+    if (!client.isReady){
+        res.json({
+            status: 'fail',
+            message: 'Database Error'
+        });
+        return ;
+    }
+
     let passwordHash = await client.get(req.body.username);
     if (passwordHash == null){
         res.json({
@@ -33,7 +41,7 @@ loginRouter.post('/', async (req, res) => {
         });
         return ;
     }
-
+    
     let isValid = await bcrypt.compare(req.body.password, passwordHash);
     if (!isValid){
         res.json({
@@ -42,11 +50,12 @@ loginRouter.post('/', async (req, res) => {
         });
         return ;
     }
-
+    
     let token = jwt.sign({
         user: req.body.username
     }, process.env.JWT_SECRET_KEY);
-    res.cookie("token", token)
+
+    res.cookie("token", token);
     res.json({
         status: 'success',
     });

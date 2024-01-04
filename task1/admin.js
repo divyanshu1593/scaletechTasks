@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 export const adminRouter = express.Router();
 
 adminRouter.get('/', (req, res) => {
-    // console.log(req.headers.authorization.split(' ')[1]);
     let token = req.headers.authorization.split(' ')[1];
     
     try{
