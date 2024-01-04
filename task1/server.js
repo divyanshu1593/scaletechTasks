@@ -2,9 +2,11 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { registrationRouter } from './register.js';
 import { loginRouter } from './login.js';
-import { adminRouter } from './admin.js';
+import { logoutRouter } from './logout.js';
+import { homeRouter } from './home.js';
 import bodyParser from 'body-parser';
 import { createClient } from 'redis';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -18,9 +20,11 @@ await client.connect();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use('/register',registrationRouter);
 app.use('/login', loginRouter);
-app.use('/admin', adminRouter);
+app.use('/logout', logoutRouter);
+app.use('/home', homeRouter);
 
 let PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

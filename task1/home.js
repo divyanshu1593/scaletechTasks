@@ -1,15 +1,15 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 
-export const adminRouter = express.Router();
+export const homeRouter = express.Router();
 
-adminRouter.get('/', (req, res) => {
-    let token = req.headers.authorization.split(' ')[1];
-    
-    try{
+homeRouter.get('/', (req, res) => {
+    let token = req.cookies.jwtToken;
+
+    try {
         let userObj = jwt.verify(token, process.env.JWT_SECRET_KEY);
         res.send(`Welcome ${userObj.user}`);
     } catch {
-        res.send('NOT Authorized!');
+        res.send('Token Expired!');
     }
 });

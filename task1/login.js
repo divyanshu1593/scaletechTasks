@@ -53,9 +53,14 @@ loginRouter.post('/', async (req, res) => {
     
     let token = jwt.sign({
         user: req.body.username
-    }, process.env.JWT_SECRET_KEY);
+    }, process.env.JWT_SECRET_KEY, {
+        expiresIn: 60 * 60 * 24
+    });
 
-    res.cookie("token", token);
+    res.cookie("jwtToken", token, {
+        httpOnly: true,
+    });
+
     res.json({
         status: 'success',
     });
