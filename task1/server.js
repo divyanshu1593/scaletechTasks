@@ -12,22 +12,63 @@ dotenv.config();
 
 const app = express();
 
-const client = createClient();
-client.on('error', err => {
-    console.log(err);
-});
-await client.connect();
+// const client = createClient();
+// await client.connect();
+// client.on('error', err => {
+//     console.log(err);
+// });
+// await client.connect();
+
+// async function func(){
+//     try {
+        
+//     } catch {
+//         await func();
+//     }
+//     console.log('here');
+// }
+
+// await func();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+// app.use(async (req, res, next) => {
+//     if (!client){
+//         client = createClient();
+//         client.on('error', err => {
+//             console.log(err);
+//         });
+//         await client.connect();
+//     }
+
+//     if (!client.isReady){
+//         if (client.isOpen) client.disconnect();
+//         client.connect();
+//     }
+
+//     next();
+// });
 app.use('/register',registrationRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/home', homeRouter);
 
+let client;
 let PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+    client = createClient({
+        socket: {
+            reconnectStrategy: retries => {
+                if (retries < 7) return 1000 * 2 **(retries + 1);
+                return 1000 * 60;
+            }
+        }
+    });
+    client.on('error', err => {
+        console.log(err);
+    });
+    await client.connect();
     console.log('server running');
 });
 
