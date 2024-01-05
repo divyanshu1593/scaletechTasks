@@ -7,7 +7,7 @@ import { validate } from './validation.js';
 export const loginRouter = express.Router();
 
 loginRouter.post('/', async (req, res) => {
-    let obj = validate(req);
+    let obj = validate(req.body.username, req.body.password);
 
     if (obj){
         res.json(obj);
