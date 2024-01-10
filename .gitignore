@@ -1,5 +1,5 @@
 node_modules
 .env
 try
-task1/test.rest
+test.rest
 task2/notes.txt

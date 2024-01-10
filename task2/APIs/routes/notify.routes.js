@@ -1,5 +1,5 @@
 import express from 'express';
-import { client } from '../model/database.js'
+import { addToDatabase } from './notify.service.js';
 
 export const notifyRouter = express.Router();
 
@@ -11,5 +11,14 @@ notifyRouter.post('/', async (req, res) => {
         rate: req.body.rate
     }
 
-    // await client.hSet('currencyNotify:' + crypto.randomUUID(), data);
+    const err = await addToDatabase(data);
+    if (err){
+        res.json(err);
+        return ;
+    }
+
+    res.json({
+        isError: false,
+        message: ''
+    });
 });
