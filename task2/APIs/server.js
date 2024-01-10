@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use('/api/convert', convertRouter);
 app.use('/api/notify', notifyRouter);
 
-setInterval(notify, 1000 * 60 * 60);
+setInterval(notify, process.env.API_UPDATE_INTERVAL);
 
 app.listen(PORT, () => {
     console.log('server started');

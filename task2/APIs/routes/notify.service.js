@@ -9,7 +9,7 @@ export async function addToDatabase(data){
     const err = await validate(data);
     if (err) return err;
 
-    await client.hSet('currencyConverter:' + crypto.randomUUID(), data);
+    await client.hSet('currencyConverter:notificationJob:' + crypto.randomUUID(), data);
 }
 
 async function validate(data){
@@ -61,7 +61,7 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function notify(){
-    const keys = await client.keys('currencyConverter:*');
+    const keys = await client.keys('currencyConverter:notificationJob:*');
     
     for (let key of keys){
         const data = await client.hGetAll(key);
