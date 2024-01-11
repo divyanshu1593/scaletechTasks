@@ -2,6 +2,7 @@ import { client } from '../model/database.js';
 import crypto from 'node:crypto';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
+import { fetchCurrencyRates } from './service.js';
 
 dotenv.config({path: '../.env'});
 
@@ -82,11 +83,20 @@ export async function notify(){
     }
 }
 
-
-
 async function needToNotify(data){
-    const currentRate = (await (await fetch(`${process.env.API_BASE_URL}/api/latest.json?app_id=${process.env.APP_ID}`)).json())
-                        .rates[data.curCode];
+    const currencyRateResult = await fetchCurrencyRates();
+    // if (reqRemaining <= 0){
+    //     currentRate = (await (await fetch(`${process.env.API_BASE_URL2}/latest/currencies/usd.json`)).json()).usd[data.curCode.toLowerCase()];
+    // } else {
+    //     currentRate = (await (await fetch(`${process.env.API_BASE_URL}/api/latest.json?app_id=${process.env.APP_ID}`)).json())
+    //                     .rates[data.curCode];
+    // }
+    let currentRate;
+    if (currencyRateResult.usedFallback){
+        currentRate = currencyRateResult.currencyRates[data.curCode.toLowerCase];
+    } else {
+        currentRate = currencyRateResult.currencyRates[data.curCode];
+    }
     
     if (data.notifyWhenGoAbove == 'true' && currentRate > data.rate) return 'above';
     if (data.notifyWhenGoAbove == 'false' && currentRate < +data.rate) return 'below';

@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { convertRouter } from './routes/convert.routes.js';
 import { notifyRouter } from './routes/notify.routes.js';
+import { currencyRouter } from './routes/currencies.routes.js';
 import bodyParser from 'body-parser';
 import { notify } from './routes/notify.service.js';
 
@@ -14,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/api/convert', convertRouter);
 app.use('/api/notify', notifyRouter);
+app.use('/api/currencies', currencyRouter);
 
 setInterval(notify, process.env.API_UPDATE_INTERVAL);
 
