@@ -43,7 +43,6 @@ async function validate(data){
     }
 
     const currencyCodes = await (await fetch(`${process.env.API_BASE_URL}/api/currencies.json?app_id=${process.env.APP_ID}`)).json();
-
     if (!(data.curCode.trim().toUpperCase() in currencyCodes)){
         return {
             isError: true,
@@ -53,7 +52,7 @@ async function validate(data){
 }
 
 const transporter = nodemailer.createTransport({
-    service: 'outlook',
+    service: process.env.EMAIL_SERVICE_PROVIDER,
     auth: {
       user: process.env.EMAIL,
       pass: process.env.EMAIL_PASSWORD
@@ -77,7 +76,7 @@ export async function notify(){
                 console.log('email sent');
                 await client.del(key);
             } catch (err){
-                console.log(err);
+                console.log('Email',err);
             }
         }
     }
