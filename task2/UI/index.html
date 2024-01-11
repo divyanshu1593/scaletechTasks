@@ -17,6 +17,26 @@
             <select id="to_select" class="fit_select"></select>
         </div>
     </div>
+    <div id="add_notification_div">
+        <button id="add_notification_btn">
+            <img src="notification_icon.png" alt="notification" id="notification_icon">
+        </button>   
+    </div>
+    <div id="notification_popup">
+        <h1 align="center">Rate Alert</h1>
+        <form action="">
+            <label for="email_input">Email</label>
+            <input type="email" name="email_input" id="email_input" class="add_margin"><br />
+            <label for="cur_code_select">Currency</label>
+            <select id="cur_code_select" name="cur_code_select" class="add_margin"></select><br />
+            <label for="rate_input">Rate</label>
+            <input type="number" id="rate_input" name="rate_input" class="add_margin"><br />
+            <div id="radio_btn_div" class="add_margin">
+                Notifiy When Go Above<input type="radio" name="notify_dir" id="radio_when_go_above">
+                Notifiy When Go Below<input type="radio" name="notify_dir" id="radio_when_go_below">
+            </div>
+        </form>
+    </div>
     <script src="index.js"></script>
 </body>
 </html>

@@ -32,3 +32,69 @@
     width: 20%;
     left: 80%;
 }
+
+#add_notification_div{
+    position: absolute;
+    height: 10%;
+    top: 70%;
+    left: 75%;
+    border-radius: 50%;
+}
+
+#add_notification_btn{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    border: 2px solid black;
+}
+
+#add_notification_div:hover{
+    box-shadow: 0px 0px 20px rgb(95, 95, 95);
+}
+
+#notification_popup{
+    border: 1px solid red;
+    position: absolute;
+    height: 40%;
+    width: 35%;
+    top: 23%;
+    left: 30.5%;
+    background: white;
+    padding: 2%;
+}
+
+/* #email_input{
+    border: 1px solid red;
+    position: absolute;
+    height: 17%;
+    width: 80%;
+    top: 6.4%;
+    left: 10%;
+}
+
+#cur_code_select{
+    border: 1px solid red;
+    position: absolute;
+    height: 17%;
+    top: 29.8%;
+    width: 100%;
+}
+
+#rate_input{
+    border: 1px solid red;
+    position: absolute;
+    height: 17%;
+    top: 53.2%;
+}
+
+#radio_btn_div{
+    border: 1px solid red;
+    position: absolute;
+    height: 17%;
+    top: 76.6%;
+} */
+
+.add_margin{
+    margin: 2%;
+}

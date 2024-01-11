@@ -32,6 +32,24 @@ toInput.addEventListener('input', async () => {
     fromInput.value = convertedValueResult.data.toAmount;
 });
 
+const notificationBtn = document.getElementById('add_notification_btn');
+const notificationPopup = document.getElementById('notification_popup');
+notificationBtn.addEventListener('click', () => {
+    notificationPopup.hidden = false;
+});
+
+document.addEventListener('click', event => {
+    if (event.target == notificationBtn) return ;
+    notificationPopup.hidden = true;
+});
+
+applyCssForNotificationIcon();
+
+function applyCssForNotificationIcon(){
+    const notificationDiv = document.getElementById('add_notification_div');
+    notificationDiv.style.width = notificationDiv.offsetHeight + 'px';
+}
+
 async function populateSelectTags(selectTag){
     const currencies = (await (await fetch(`${API_BASE_URL}/api/currencies`)).json()).data.currencyCodes;
     for (let currency in currencies){
