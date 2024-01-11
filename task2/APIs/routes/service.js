@@ -1,4 +1,4 @@
-import { client } from "../model/database";
+import { client } from "../model/database.js";
 
 export async function fetchCurrencies(){
     const reqRemaining = (await (await fetch(`${process.env.API_BASE_URL}/api/usage.json?app_id=${process.env.APP_ID}`)).json())

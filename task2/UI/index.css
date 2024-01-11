@@ -1,0 +1,34 @@
+#converter_main{
+    position: absolute;
+    height: 25%;
+    width: 40%;
+    top: 30%;
+    left: 30%;
+}
+
+#from_div{
+    position: absolute;
+    height: 40%;
+    width: 100%;
+}
+
+#to_div{
+    position: absolute;
+    height: 40%;
+    width: 100%;
+    top: 60%;
+}
+
+.fit_input{
+    position: absolute;
+    height: 90%;
+    width: 77%;
+    font-size: xx-large;
+}
+
+.fit_select{
+    position: absolute;
+    height: 90%;
+    width: 20%;
+    left: 80%;
+}

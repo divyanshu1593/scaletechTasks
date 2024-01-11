@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Currency Converter</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <div id="converter_main">
-        <input type="number" id="from_value">
-        <select id="from_select"></select>
-        <input type="number" id="to_value">
-        <select id="to_select"></select>
+        <div id="from_div">
+            <input type="number" id="from_input" class="fit_input">
+            <select id="from_select" class="fit_select"></select>
+        </div>
+        <div id="to_div">
+            <input type="number" id="to_input" class="fit_input">
+            <select id="to_select" class="fit_select"></select>
+        </div>
     </div>
     <script src="index.js"></script>
 </body>
