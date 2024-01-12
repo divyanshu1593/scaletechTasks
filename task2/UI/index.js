@@ -2,11 +2,42 @@ const API_BASE_URL = 'http://localhost:5000'
 
 const fromSelect = document.getElementById('from_select');
 const toSelect = document.getElementById('to_select');
-populateSelectTags(fromSelect);
-populateSelectTags(toSelect);
-
 const fromInput = document.getElementById('from_input');
 const toInput = document.getElementById('to_input');
+const notificationBtn = document.getElementById('add_notification_btn');
+const notificationPopup = document.getElementById('notification_popup');
+const rateAlertSelect = document.getElementById('cur_code_select');
+const rateAlertForm = notificationPopup.querySelector('form');
+
+populateSelectTags(fromSelect);
+populateSelectTags(toSelect);
+populateSelectTags(rateAlertSelect);
+changeNotificationPopupElemSize(0.08);
+applyCssForNotificationIcon();
+
+rateAlertForm.addEventListener('submit', async event => {
+    const email = rateAlertForm.querySelector('#email_input').value;
+    const curCode = rateAlertForm.querySelector('#cur_code_select').value;
+    const rate = rateAlertForm.querySelector('#rate_input').value;
+    const notifyWhenGoAbove = rateAlertForm.querySelector('#radio_when_go_above').checked;
+
+    const result = await fetch(`${API_BASE_URL}/api/notify`, {
+        method: "POST",
+        body: JSON.stringify({
+            email,
+            curCode,
+            rate,
+            notifyWhenGoAbove
+        }),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    });
+
+    console.log(await result.json());
+});
+
+
 
 fromInput.addEventListener('input', async () => {
     if (fromInput.value === '') return ;
@@ -32,18 +63,37 @@ toInput.addEventListener('input', async () => {
     fromInput.value = convertedValueResult.data.toAmount;
 });
 
-const notificationBtn = document.getElementById('add_notification_btn');
-const notificationPopup = document.getElementById('notification_popup');
-notificationBtn.addEventListener('click', () => {
+notificationBtn.addEventListener('click', event => {
+    if (notificationPopup.hidden) event.ignoreByDocument = true;
     notificationPopup.hidden = false;
+
+    for (let elem of document.body.children){
+        if (elem.closest('#notification_popup')) continue;
+        elem.style.filter = 'blur(5px)';
+    }
 });
 
 document.addEventListener('click', event => {
-    if (event.target == notificationBtn) return ;
+    if (event.ignoreByDocument) return ;
+    if (event.target.closest('#notification_popup')) return ;
+
     notificationPopup.hidden = true;
+    for (let elem of document.body.children){
+        if (elem.closest('#notification_popup')) continue;
+        elem.style.filter = 'blur(0px)';
+    }
 });
 
-applyCssForNotificationIcon();
+function changeNotificationPopupElemSize(ratio){
+    const prevHiddenState = notificationPopup.hidden;
+    if (prevHiddenState) notificationPopup.hidden = false;
+
+    for (let elem of rateAlertForm.children){
+        elem.style.height = notificationPopup.offsetHeight * ratio + 'px';
+    }
+
+    notificationPopup.hidden = prevHiddenState;
+}
 
 function applyCssForNotificationIcon(){
     const notificationDiv = document.getElementById('add_notification_div');

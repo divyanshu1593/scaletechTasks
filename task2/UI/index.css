@@ -54,7 +54,6 @@
 }
 
 #notification_popup{
-    border: 1px solid red;
     position: absolute;
     height: 40%;
     width: 35%;
@@ -62,39 +61,29 @@
     left: 30.5%;
     background: white;
     padding: 2%;
+    border: 1px solid black;
+    box-shadow: 10px 10px 10px black;
 }
 
-/* #email_input{
-    border: 1px solid red;
-    position: absolute;
-    height: 17%;
-    width: 80%;
-    top: 6.4%;
-    left: 10%;
+#rate_alert_heading{
+    position: relative;
+    text-align: center;
+    top: 0%;
+    margin-top: 0%;
 }
-
-#cur_code_select{
-    border: 1px solid red;
-    position: absolute;
-    height: 17%;
-    top: 29.8%;
-    width: 100%;
-}
-
-#rate_input{
-    border: 1px solid red;
-    position: absolute;
-    height: 17%;
-    top: 53.2%;
-}
-
-#radio_btn_div{
-    border: 1px solid red;
-    position: absolute;
-    height: 17%;
-    top: 76.6%;
-} */
 
 .add_margin{
     margin: 2%;
+}
+
+#rate_alert_submit{
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    height: 2%;
+}
+
+#rate_alert_submit:hover{
+    box-shadow: 0px 0px 10px grey;
 }
