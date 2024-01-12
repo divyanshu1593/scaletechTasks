@@ -16,12 +16,13 @@ changeNotificationPopupElemSize(0.08);
 applyCssForNotificationIcon();
 
 rateAlertForm.addEventListener('submit', async event => {
+    event.preventDefault();
     const email = rateAlertForm.querySelector('#email_input').value;
     const curCode = rateAlertForm.querySelector('#cur_code_select').value;
     const rate = rateAlertForm.querySelector('#rate_input').value;
     const notifyWhenGoAbove = rateAlertForm.querySelector('#radio_when_go_above').checked;
 
-    const result = await fetch(`${API_BASE_URL}/api/notify`, {
+    let result = await fetch(`${API_BASE_URL}/api/notify`, {
         method: "POST",
         body: JSON.stringify({
             email,
@@ -33,11 +34,20 @@ rateAlertForm.addEventListener('submit', async event => {
             "Content-type": "application/json; charset=UTF-8"
         }
     });
+    
+    result = await result.json();
+    if (result.isError){
+        alert(result.message);
+    } else {
+        alert("You will be notified");
 
-    console.log(await result.json());
+        notificationPopup.hidden = true;
+        for (let elem of document.body.children){
+            if (elem.closest('#notification_popup')) continue;
+            elem.style.filter = 'blur(0px)';
+        }
+    }
 });
-
-
 
 fromInput.addEventListener('input', async () => {
     if (fromInput.value === '') return ;
