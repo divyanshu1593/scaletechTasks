@@ -9,7 +9,7 @@ dotenv.config({path: '../.env'});
 export async function addToDatabase(data){
     const err = await validate(data);
     if (err) return err;
-
+    data.notifyWhenGoAbove = String(data.notifyWhenGoAbove)
     await client.hSet('currencyConverter:notificationJob:' + crypto.randomUUID(), data);
 }
 
@@ -29,7 +29,7 @@ async function validate(data){
         }
     }
 
-    if (data.notifyWhenGoAbove != 'true' && data.notifyWhenGoAbove != 'false'){
+    if (typeof data.notifyWhenGoAbove != 'boolean'){
         return {
             isError: true,
             message: 'notifyWhenGoAbove have to be boolean'
