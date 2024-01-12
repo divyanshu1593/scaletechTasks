@@ -15,6 +15,30 @@ populateSelectTags(rateAlertSelect);
 changeNotificationPopupElemSize(0.08);
 applyCssForNotificationIcon();
 
+fromSelect.addEventListener('change', async () => {
+    if (toInput.value === '') return ;
+    const convertedValueResult = await (await fetch(`${API_BASE_URL}/api/convert?fromCode=${toSelect.value}&fromAmount=${toInput.value}&toCode=${fromSelect.value}`)).json();
+
+    if (convertedValueResult.isError){
+        console.log(convertedValueResult.message);
+        return ;
+    }
+
+    fromInput.value = convertedValueResult.data.toAmount;
+});
+
+toSelect.addEventListener('change', async () => {
+    if (fromInput.value === '') return ;
+    const convertedValueResult = await (await fetch(`${API_BASE_URL}/api/convert?fromCode=${fromSelect.value}&fromAmount=${fromInput.value}&toCode=${toSelect.value}`)).json();
+
+    if (convertedValueResult.isError){
+        console.log(convertedValueResult.message);
+        return ;
+    }
+
+    toInput.value = convertedValueResult.data.toAmount;
+});
+
 rateAlertForm.addEventListener('submit', async event => {
     event.preventDefault();
     const email = rateAlertForm.querySelector('#email_input').value;
@@ -115,6 +139,7 @@ async function populateSelectTags(selectTag){
     for (let currency in currencies){
         const optionTag = document.createElement('option');
         optionTag.value = currency;
+        if (optionTag.value.toLowerCase() == 'usd') optionTag.selected = true;
         optionTag.innerText = currency;
         selectTag.appendChild(optionTag);
     }

@@ -1,5 +1,9 @@
 import { createClient } from 'redis';
 
+let startTime;
+let temp;
+let flag = false;
+
 export const client = createClient({
     socket: {
         reconnectStrategy: retryNum => {
